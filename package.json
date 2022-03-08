@@ -1,0 +1,51 @@
+{
+  "name": "node-pre-gyp-boilerplate",
+  "version": "0.0.1",
+  "description": "This is a boilerplate for Node.js C++ Addon package that can be published to Npm.",
+  "main": "build/index.js",
+  "author": "Muryllo Pimenta",
+  "license": "MIT",
+  "private": false,
+  "gypfile": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MurylloEx/node-pre-gyp-boilerplate.git"
+  },
+  "binary": {
+    "module_name": "<module-name>",
+    "module_path": "./build/Release",
+    "remote_path": "v{version}",
+    "package_name": "{module_name}-{platform}-{arch}-v{version}.tar.gz",
+    "host": "https://github.com/MurylloEx/node-pre-gyp-boilerplate/releases/download/"
+  },
+  "scripts": {
+    "clean": "rimraf build/",
+    "start": "ts-node src/index.ts",
+    "build": "npm run clean && npm run copyfiles && npx node-pre-gyp configure rebuild && tsc",
+    "copyfiles": "copyfiles -u 1 src/**/* build/",
+    "install": "node-pre-gyp install --fallback-to-build",
+    "pregyp": "npx env-cmd npx node-pre-gyp-github publish --release",
+    "prepublishOnly": "npm run build && npx node-pre-gyp package && npm run pregyp"
+  },
+  "dependencies": {
+    "@mapbox/node-pre-gyp": "^1.0.8",
+    "@mmomtchev/node-pre-gyp-github": "^2.0.6",
+    "node-addon-api": "^4.3.0"
+  },
+  "devDependencies": {
+    "@types/node": "^14.18.12",
+    "copyfiles": "^2.4.1",
+    "env-cmd": "^10.1.0",
+    "rimraf": "^3.0.2",
+    "ts-node": "^10.7.0",
+    "typescript": "^4.6.2"
+  },
+  "keywords": [
+    "c++",
+    "node",
+    "addon",
+    "interoperability",
+    "native",
+    "syscall"
+  ]
+}
